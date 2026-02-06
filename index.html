@@ -103,7 +103,7 @@ button {
 
 <div class="card" id="card">
     <img
-      src="https://drive.google.com/uc?export=download&id=1VoqNDKTGR148uIjA-BT0tO9lltFcqidn"
+      src="1VoqNDKTGR148uIjA-BT0tO9lltFcqidn.jpg"
       class="photo"
       alt="Shivani">
 
@@ -125,12 +125,21 @@ button {
 </div>
 
 <!-- Audio -->
-<audio id="song" src="audio/Kumar-Sanu-Hit-Song-Banjo-Instru.mp3" loop></audio>
+<audio id="song" src="Kumar-Sanu-Hit-Song-Banjo-Instru.mp3" loop></audio>
 
 <script>
+// Get audio element
+const song = document.getElementById("song");
+
+// Try autoplay on page load
+window.addEventListener("load", () => {
+    song.play().catch(() => {
+        console.log("Autoplay blocked, click the button to play music.");
+    });
+});
+
 // Play music on button click
 function playMusic() {
-    const song = document.getElementById("song");
     song.play().catch(() => {
         alert("Tap the Play button to start music!");
     });
