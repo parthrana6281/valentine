@@ -45,6 +45,11 @@ h1 {
     margin-bottom: 8px;
 }
 
+h2 {
+    font-size: 18px;
+    margin-top: 12px;
+}
+
 p {
     font-size: 14px;
     line-height: 1.6;
@@ -118,7 +123,7 @@ button {
 
 <div class="card" id="card">
     <img
-      src="https://drive.google.com/file/d/1VoqNDKTGR148uIjA-BT0tO9lltFcqidn/view?usp=drive_link"
+      src="https://drive.google.com/uc?export=view&id=1VoqNDKTGR148uIjA-BT0tO9lltFcqidn"
       class="photo"
       alt="Shivani">
 
@@ -139,12 +144,16 @@ button {
     <button class="music-btn" onclick="playMusic()">🎶 Play Our Song</button>
 </div>
 
+<!-- Audio -->
+<audio id="song" src="audio/Kumar-Sanu-Hit-Song-Banjo-Instru.mp3" loop></audio>
+
 <script>
+// Play music on button click
 function playMusic() {
-    window.open(
-      "https://www.youtube.com/watch?v=ionHFkiU7s0",
-      "_blank"
-    );
+    const song = document.getElementById("song");
+    song.play().catch(() => {
+        alert("Tap the Play button to start music!");
+    });
 }
 
 // Impossible No button
@@ -171,6 +180,7 @@ setInterval(() => {
     setTimeout(() => heart.remove(), 7000);
 }, 280);
 
+// Confetti
 function confettiBoom() {
     for (let i = 0; i < 120; i++) {
         const c = document.createElement("div");
@@ -183,6 +193,7 @@ function confettiBoom() {
     }
 }
 
+// Show love page
 function showLove() {
     confettiBoom();
     document.getElementById("card").innerHTML = `
