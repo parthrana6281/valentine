@@ -23,6 +23,7 @@ body {
     backdrop-filter: blur(12px);
     border-radius: 20px;
     padding: 25px;
+    padding-bottom: 45px;
     width: 90%;
     max-width: 340px;
     text-align: center;
@@ -46,22 +47,32 @@ p { font-size: 14px; line-height: 1.6; }
 
 .buttons {
     margin-top: 18px;
-    display: flex;
-    justify-content: center;
-    gap: 12px;
     position: relative;
+    height: 60px;
 }
 
-button {
-    border: none;
+.buttons button {
+    position: absolute;
     padding: 10px 20px;
+    border: none;
     border-radius: 22px;
     font-size: 14px;
     cursor: pointer;
+    transition: 0.2s ease;
 }
 
-.yes { background: #ff2f6d; color: white; }
-.no { background: #333; color: white; position: absolute; }
+.yes {
+    background: #ff2f6d;
+    color: white;
+    left: 20%;
+}
+
+.no {
+    background: #333;
+    color: white;
+    left: 60%;
+}
+
 .music-btn {
     margin-top: 12px;
     background: rgba(0,0,0,0.35);
@@ -69,8 +80,20 @@ button {
     padding: 8px 16px;
     border-radius: 18px;
     font-size: 13px;
+    border: none;
+    cursor: pointer;
 }
 
+.copyright {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    width: 100%;
+    font-size: 11px;
+    opacity: 0.75;
+}
+
+/* Floating Hearts */
 .heart {
     position: absolute;
     bottom: -20px;
@@ -84,6 +107,7 @@ button {
     to { transform: translateY(-110vh) scale(1.6); opacity: 0; }
 }
 
+/* Confetti */
 .confetti {
     position: fixed;
     width: 8px;
@@ -102,10 +126,7 @@ button {
 <body>
 
 <div class="card" id="card">
-    <img
-      src="1VoqNDKTGR148uIjA-BT0tO9lltFcqidn.jpg"
-      class="photo"
-      alt="Shivani">
+    <img src="1VoqNDKTGR148uIjA-BT0tO9lltFcqidn.jpg" class="photo" alt="Shivani">
 
     <h1>Hey My Love 💖</h1>
     <p>
@@ -115,7 +136,7 @@ button {
         where reason ends and longing begins.<br>
         You are every heartbeat forgets its rhythm.<br>
         Every breath that aches to be near you.<br>
-        Loving you it not a choice.<br>
+        Loving you is not a choice.<br>
         It's a beautiful kind of madness.<br> 
         I never want to heal from.<br> 
     </p>
@@ -123,48 +144,56 @@ button {
     <h2>Will you be my Valentine? ❤️</h2>
 
     <div class="buttons">
-        <button class="yes" onclick="showLove()">Yes ❤️</button>
+        <button class="yes" id="yesBtn" onclick="showLove()">Yes ❤️</button>
         <button class="no" id="noBtn">No 💔</button>
     </div>
 
     <button class="music-btn" onclick="playMusic()">🎶 Play Our Song</button>
+
+    <p class="copyright">© 2026 Parth Rana. All Rights Reserved.</p>
 </div>
 
-<!-- Audio -->
 <audio id="song" src="Kumar-Sanu-Hit-Song-Banjo-Instru.mp3" loop></audio>
 
 <script>
-// Get audio element
 const song = document.getElementById("song");
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const container = document.querySelector(".buttons");
 
-// Try autoplay on page load
+/* Try autoplay */
 window.addEventListener("load", () => {
-    song.play().catch(() => {
-        console.log("Autoplay blocked, click the button to play music.");
-    });
+    song.play().catch(() => {});
 });
 
-// Play music on button click
 function playMusic() {
     song.play().catch(() => {
         alert("Tap the Play button to start music!");
     });
 }
 
-// Impossible No button
-const noBtn = document.getElementById("noBtn");
-noBtn.addEventListener("mouseover", escape);
-noBtn.addEventListener("touchstart", escape);
-noBtn.addEventListener("click", escape);
+/* Moving NO button */
+noBtn.addEventListener("mouseover", moveNo);
+noBtn.addEventListener("touchstart", moveNo);
+noBtn.addEventListener("click", moveNo);
 
-function escape() {
-    const x = Math.random() * (window.innerWidth - 120);
-    const y = Math.random() * (window.innerHeight - 60);
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+function moveNo() {
+    const containerWidth = container.offsetWidth;
+    const btnWidth = noBtn.offsetWidth;
+    const yesLeft = yesBtn.offsetLeft;
+
+    let newX;
+    const safeDistance = 90;
+
+    do {
+        newX = Math.random() * (containerWidth - btnWidth);
+    } while (Math.abs(newX - yesLeft) < safeDistance);
+
+    noBtn.style.left = newX + "px";
+    noBtn.style.top = Math.random() * 20 + "px";
 }
 
-// Floating hearts
+/* Floating Hearts */
 setInterval(() => {
     const heart = document.createElement("div");
     heart.className = "heart";
@@ -175,7 +204,7 @@ setInterval(() => {
     setTimeout(() => heart.remove(), 7000);
 }, 280);
 
-// Confetti
+/* Confetti */
 function confettiBoom() {
     for (let i = 0; i < 120; i++) {
         const c = document.createElement("div");
@@ -188,7 +217,7 @@ function confettiBoom() {
     }
 }
 
-// Show love page
+/* YES clicked */
 function showLove() {
     confettiBoom();
     document.getElementById("card").innerHTML = `
@@ -201,12 +230,14 @@ function showLove() {
       I’ll choose you tomorrow.<br>
       And I’ll keep choosing you — always.
       </p>
-<p><strong>— Parth Rana</strong></p>
-<p>Happy Valentine’s Day 💕</p>
+      <p><strong>— Parth Rana</strong></p>
+      <p>Happy Valentine’s Day 💕</p>
+      <p style="margin-top:20px;font-size:11px;opacity:0.75;">
+      © 2026 Parth Rana. All Rights Reserved.
+      </p>
     `;
 }
 </script>
 
 </body>
 </html>
-
